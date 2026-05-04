@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<style>
+    body { font: 14px sans-serif; padding: 20px; background: #f0f2f5; }
+    .container { max-width: 500px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; }
+    .code-item { display: inline-block; margin: 4px; padding: 8px 12px; border: 1px solid #ddd; cursor: pointer; border-radius: 5px; }
+    .clicked { color: #ccc; text-decoration: line-through; background: #eee; }
+    .section-title { margin-top: 15px; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="container">
+    <h3>임진왜란 치트 & 쿠폰 <button onclick="location.reload()">리셋</button></h3>
+    <div class="section-title">🎫 쿠폰</div>
+    <div id="coupons"></div>
+    <div class="section-title">⚔️ 치트</div>
+    <div id="cheats"></div>
+</div>
+<script>
+const cps = ['TAIGONREADY', 'TAIGONUP', 'LAUNCH0428', 'THANKYOUALL'];
+const cts = ['승승장구', '금은보화', '유아독존', '명명백백', '전광석화', '인정사정볼것없다', '이보다더좋은순없다', '돈을갖고튀어라', '보이지않는위험', '비오는날의수채화', '주유소습격사건', '열세번째전사', '감격시대', '맨발의청춘', '잘살아보세', '쨍하고해뜰날돌아온단다', '남행열차', '굳세어라금순아', '나그대에게모두드리리', '비내리는영동교', '대한독립만세'];
+
+function render(arr, id) {
+    arr.forEach(t => {
+        const d = document.createElement('div');
+        d.className = 'code-item';
+        d.textContent = t;
+        d.onclick = () => { navigator.clipboard.writeText(t); d.classList.add('clicked'); };
+        document.getElementById(id).appendChild(d);
+    });
+}
+render(cps, 'coupons'); render(cts, 'cheats');
+</script>
+</body>
+</html>
