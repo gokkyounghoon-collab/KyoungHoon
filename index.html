@@ -3,86 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <style>
-    body { font: 16px sans-serif; padding: 20px; background: #f0f2f5; }
-    .container { max-width: 600px; margin: auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    .code-item { 
-        display: inline-block; 
-        margin: 6px; 
-        padding: 12px 18px; 
-        border: 1px solid #ddd; 
-        cursor: pointer; 
-        border-radius: 8px; 
-        font-size: 18px; 
-        font-weight: 500;
-        background: #fdfdfd;
-        transition: all 0.2s;
-    }
-    .code-item:active { background: #e9ecef; }
-    .clicked { color: #bbb; text-decoration: line-through; background: #f8f9fa; border-color: #eee; }
-    .section-title { margin-top: 25px; margin-bottom: 10px; font-weight: bold; font-size: 20px; color: #333; }
-    h3 { font-size: 24px; margin-top: 0; display: flex; justify-content: space-between; align-items: center; }
-    button { padding: 8px 15px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; background: #fff; }
-
-    /* 토스트 메시지 스타일 추가 */
-    #toast {
-        visibility: hidden;
-        min-width: 200px;
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        border-radius: 8px;
-        padding: 12px;
-        position: fixed;
-        z-index: 1;
-        left: 50%;
-        bottom: 30px;
-        transform: translateX(-50%);
-        font-size: 16px;
-    }
-    #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 1.5s; }
-    @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
-    @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+body { font: 16px sans-serif; padding: 20px; background: #f0f2f5; }
+.container { max-width: 600px; margin: auto; background: #fff; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.code-item { display: inline-block; margin: 6px; padding: 12px 18px; border: 1px solid #ddd; cursor: pointer; border-radius: 8px; font-size: 18px; font-weight: 500; background: #fdfdfd; transition: all 0.2s; }
+.code-item:active { background: #e9ecef; }
+.clicked { color: #bbb; text-decoration: line-through; background: #f8f9fa; border-color: #eee; }
+.section-title { margin-top: 25px; margin-bottom: 10px; font-weight: bold; font-size: 20px; color: #333; }
+.sub-title { margin-top: 15px; margin-bottom: 5px; font-weight: 600; font-size: 16px; color: #555; background: #eef1f6; padding: 6px 12px; border-radius: 6px; display: inline-block; }
+h3 { font-size: 24px; margin-top: 0; display: flex; justify-content: space-between; align-items: center; }
+button { padding: 8px 15px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc; background: #fff; }
+#toast { visibility: hidden; min-width: 200px; background-color: #333; color: #fff; text-align: center; border-radius: 8px; padding: 12px; position: fixed; z-index: 1; left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 16px; }
+#toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 1.5s; }
+@keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+@keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 </style>
 </head>
 <body>
 <div class="container">
-    <h3>임진왜란 치트 & 쿠폰 <button onclick="location.reload()">리셋</button></h3>
-    <div class="section-title">🎫 쿠폰 (클릭시 복사)</div>
-    <div id="coupons"></div>
-    <div class="section-title">⚔️ 치트 (클릭시 복사)</div>
-    <div id="cheats"></div>
+<h3>임진왜란 치트 & 쿠폰 <button onclick="location.reload()">리셋</button></h3>
+<div class="section-title">🎫 쿠폰 (클릭시 복사)</div>
+<div id="coupons"></div>
+<div class="section-title">⚔️ 치트 (클릭시 복사)</div>
+<div class="sub-title">&lt;임진록2&gt;</div>
+<div id="imjin2"></div>
+<div class="sub-title">&lt;임진록2 조선의반격&gt;</div>
+<div id="imjin2_cs"></div>
+<div class="sub-title">&lt;천년의신화&gt;</div>
+<div id="myth"></div>
 </div>
-
-<!-- 메시지를 띄울 요소 -->
 <div id="toast">복사되었습니다!</div>
-
 <script>
 const cps = ['TAIGONREADY', 'TAIGONUP', 'LAUNCH0428', 'THANKYOUALL', 'HAPPY0505', 'IMJINLOVE', 'IMJIN0512','IMJINLIVE0513'];
-const cts = ['승승장구', '금은보화', '유아독존', '명명백백', '전광석화', '인정사정볼것없다', '이보다더좋은순없다', '돈을갖고튀어라', '보이지않는위험', '비오는날의수채화', '주유소습격사건', '열세번째전사', '감격시대', '맨발의청춘', '잘살아보세', '쨍하고해뜰날돌아온단다', '남행열차', '굳세어라금순아', '나그대에게모두드리리', '비내리는영동교', '대한독립만세'];
-
-// 토스트 메시지 함수
+const cts1 = ['돈을갖고튀어라', '주유소습격사건', '열세번째전사', '보이지않는위험', '비오는날의수채화', '인정사정볼것없다'];
+const cts2 = ['잘살아보세', '나그대에게모두드리리', '굳세어라금순아', '쨍하고해뜰날돌아온단다', '남행열차', '비내리는영동교', '맨발의청춘', '감격시대'];
+const cts3 = ['금은보화', '명명백백', '전광석화', '유아독존', '승승장구'];
 function showToast(msg) {
-    const toast = document.getElementById("toast");
-    toast.textContent = "복사되었습니다: " + msg;
-    toast.className = "show";
-    setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2000);
+const toast = document.getElementById("toast");
+toast.textContent = "복사되었습니다: " + msg;
+toast.className = "show";
+setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2000);
 }
-
 function render(arr, id) {
-    arr.forEach(t => {
-        const d = document.createElement('div');
-        d.className = 'code-item';
-        d.textContent = t;
-        d.onclick = () => { 
-            navigator.clipboard.writeText(t).then(() => {
-                showToast(t); // alert 대신 함수 호출
-                d.classList.add('clicked'); 
-            });
-        };
-        document.getElementById(id).appendChild(d);
-    });
+arr.forEach(t => {
+const d = document.createElement('div');
+d.className = 'code-item';
+d.textContent = t;
+d.onclick = () => {
+navigator.clipboard.writeText(t).then(() => {
+showToast(t);
+d.classList.add('clicked');
+});
+};
+document.getElementById(id).appendChild(d);
+});
 }
-render(cps, 'coupons'); render(cts, 'cheats');
+render(cps, 'coupons');
+render(cts1, 'imjin2');
+render(cts2, 'imjin2_cs');
+render(cts3, 'myth');
 </script>
 </body>
 </html>
