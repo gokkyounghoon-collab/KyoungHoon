@@ -1,0 +1,211 @@
+{
+  "exam_title": "한국사 이미지 CBT 20제 (나무위키 이미지)",
+  "questions": [
+    {
+      "id": 1,
+      "subject": "선사 문화",
+      "question": "다음 유물이 사용된 시대의 특징은?",
+      "image_url": "https://i.namu.wiki/i/Yotw2gIWPMoCnzR0pSBQhsyvBQwIyEin1n7uz1t7CcA8DGnQEtfMZHiYqgC4y6140LrrbE81a075fTkUzP1EMNWCLyG3jboFubX7ihGejlkbwojtP265Ge7RpHtmD4a3OTzV38aFeinrh1VFl0gyAg.webp",
+      "options": ["이동생활", "정착생활", "철기사용", "계급사회", "불교수용"],
+      "answer": 2
+    },
+
+    {
+      "id": 2,
+      "subject": "선사 문화",
+      "question": "다음 유적이 의미하는 것은?",
+      "image_url": "https://i.namu.wiki/i/rZh04liNjqyyGEB_l7eR5Hc6UqeGkyZZM89M84NdcaKOVvlYjJasCUhlPsnQRzVbXXZsDtyk9PAa6pHE6KZ3USQxcjTOP_hUTyGzJdAzW8rrnaW2sOpxivMS10yyizTaRAgLvz8zJYV3saxTtlRgfw.webp",
+      "options": ["평등사회", "계급존재", "유목생활", "불교전래", "철기문화"],
+      "answer": 2
+    },
+
+    {
+      "id": 3,
+      "subject": "고조선",
+      "question": "다음 유물과 관련된 국가는?",
+      "image_url": "https://i.namu.wiki/i/NrmK74imQGwNUzjtUpfeW-SNv2jACZQxe1Xs5zzThc9UNlJFVv5It34UeJ6-8c26Oksz-ETrMfvyDsThXy1m_lSUa27Zhmyk7Rwf1DwfeurXL7Eym_tBk4A5a1pbacDBLzH_xuGe-IBynR12CxgGJw.webp",
+      "options": ["신라", "고조선", "발해", "고려", "가야"],
+      "answer": 2
+    },
+
+    {
+      "id": 4,
+      "subject": "고구려",
+      "question": "다음 비석의 주인공은?",
+      "image_url": "https://i.namu.wiki/i/FgeTqXeRuknhRz0zwpKh-pnL4MM4vvMr6cZckttQdV4BCS5PZ3H7UHH-tU80cAsI-VH0DeNcDj0khqxW8KxWFpJ8chdWo7WrTPN34RMKQAuLcRqSXzKZmbN4RkwaNk9_FfyXz08gJ9a3rinQVP-V-Q.webp",
+      "options": ["장수왕", "광개토대왕", "태조왕", "진흥왕", "문무왕"],
+      "answer": 2
+    },
+
+    {
+      "id": 5,
+      "subject": "백제",
+      "question": "다음 유적의 왕은?",
+      "image_url": "https://i.namu.wiki/i/FOq0jPvnEOZSpxah1UI9Jyr5AHre-4qTpOfaxn0tfRF-5Y9dchanDIDjAK5hfYenXV21EsOriZjgcmlfTSl2OmoIUDei1cu9eCN1ib3ajpjaFhojeVH9XJYfwej_-TXt3rrgbZE8DwiKLXSitAdJOg.webp",
+      "options": ["근초고왕", "무령왕", "성왕", "의자왕", "침류왕"],
+      "answer": 2
+    },
+
+    {
+      "id": 6,
+      "subject": "신라",
+      "question": "다음 유물의 시대는?",
+      "image_url": "https://i.namu.wiki/i/rqtnAGcvpnNl8TKfEfNdHJXlvUqodr8AwCbVW7epcsSUAYG-Eqr2T3yDzoqXdwlu05zruAknOdRSXO62-5EAKsTb1Bf3cZwLj9MmYOMqbohY2TVd0-zZXOVIFjcaQSHSi-NX0aCkcFN-mQ3MqOWwdw.webp",
+      "options": ["고조선", "삼국", "통일신라", "발해", "고려"],
+      "answer": 2
+    },
+
+    {
+      "id": 7,
+      "subject": "불교",
+      "question": "다음 건축물의 시대는?",
+      "image_url": "https://i.namu.wiki/i/zssFbaoo7dUaM9V0WzAEcKcp1bUmMkpk5BRjDKPxhU7ccNXBuO3hJa9Fb8g4N0jnzNvGIU9rJRoELOi6qRyk0tyd-q83UKFlXVhYQ5bkYn_BNiGWCbHNb9CbTzfOybpeUNPyW2vbAgWsw9gFi9RiRQ.webp",
+      "options": ["삼국", "통일신라", "고려", "조선", "발해"],
+      "answer": 2
+    },
+
+    {
+      "id": 8,
+      "subject": "불교",
+      "question": "다음 문화재의 특징은?",
+      "image_url": "https://i.namu.wiki/i/yT8MhfjIFUPypGjjmpc9vTQYubUwSKaMj0snKcf8WSjwdR9GJ_NEp6L7gV081xn7dynT2k7x4eWGpvYhUTX_HnxYqU_4Qg0KtRQgfqJekOrb9I1jqwEfBJWrpybb3dUxkfGHho0KWNPDTqOuJ081fQ.webp",
+      "options": ["목조건물", "석굴사원", "궁궐", "군사시설", "유교건축"],
+      "answer": 2
+    },
+
+    {
+      "id": 9,
+      "subject": "전쟁",
+      "question": "살수대첩의 승리 인물은?",
+      "image_url": "https://i.namu.wiki/i/CGX7-EJRT8uXDH813uKdQnEQgUiqk6DZxQStBgJPBQx6rQFxXrTTHvzvl57we_0RVDOVWa-I-rkCj4iduljp_zNdskkTpvxCpazNq8INzqfZAo9fCKlS3RYETgX8OrsbZh2xoUPrmF-YPhXYfsVuIQ.webp",
+      "options": ["연개소문", "을지문덕", "김유신", "계백", "강감찬"],
+      "answer": 2
+    },
+
+    {
+      "id": 10,
+      "subject": "전쟁",
+      "question": "안시성 전투의 장수는?",
+      "image_url": "https://i.namu.wiki/i/O_UHJ1KxfloF2lfaWk2P8UpbtY23fDUFJF2aIZVTvfdibc46wo-BfOI4kcopIBNb47UYjSEq345wsB9emUHSZEaJovQMj6ZqeHaJUIAdEojKzm2r3sM70iOv3MVGBYogvr4COCaKYoIXK-bGij7b4g.webp",
+      "options": ["양만춘", "을지문덕", "김유신", "연개소문", "계백"],
+      "answer": 1
+    },
+
+    {
+      "id": 11,
+      "subject": "발해",
+      "question": "다음 유적의 국가는?",
+      "image_url": "https://i.namu.wiki/i/upqF0NnwBVleCl-M9kYga5DVDc4l73Uca8emnnS2oQpq_-EnNs5E6Gu-t4-hiwwJPFUHI3rViyDhTX8ZpVcQ1Szlys1LygjI2nEIxNfuuSJnXmB0UppJCbOGs3PVtGe-Qi3cyR-7IyukmYIIjOZNVg.webp",
+      "options": ["고구려", "백제", "신라", "발해", "고려"],
+      "answer": 4
+    },
+
+    {
+      "id": 12,
+      "subject": "통일신라",
+      "question": "다음 유물의 용도는?",
+      "image_url": "https://i.namu.wiki/i/SJpfsi5-MoxNsnPIGuWdSBXL5ebNeLKqFeIO4x9EPqJd6rhqF7qaOrlFADwTwutkocgNom9IRVskODHdh8eKqLogUnWHUtGNpGhBFRPHvqHY42bLD42YPNSAjsXoeu-_x_8fRiiOCE4TQLJZtHeZ9Q.jpg",
+      "options": ["군사", "불교의식", "교육", "경제", "외교"],
+      "answer": 2
+    },
+
+    {
+      "id": 13,
+      "subject": "고려",
+      "question": "다음 유물의 특징은?",
+      "image_url": "https://i.namu.wiki/i/V-Cg1Nr3pprIkzWSMAKS1MPbgjpDQjTxViNlFdMnQEdTT2jo31DvwN6ZJQ5kc0nxO3VrsJV0uHuSMzP4Vvr9fFdLUZBCyqpJzbXFzBq_NiJWSRF-Uy0PpMmFENGK2Iddc8F3xbaIcT46rMtQ_ZZZMg.webp",
+      "options": ["청자", "목기", "철기", "도자기없음", "유교문화"],
+      "answer": 1
+    },
+
+    {
+      "id": 14,
+      "subject": "고려",
+      "question": "다음 유물의 목적은?",
+      "image_url": "https://i.namu.wiki/i/wRYVoUiT9jVF09GUGHf1loSi5GaDLiCWq5u0VwdhVO2iahudtZj6gz47YXUXlhhVfyqYNuFiCOZdCST4yK-Wwp44fs_bKsDS4ClUZD33ntVHDWJ9YcGMM1xOijao1VsuXuP0pTEPveGNCsS_p-8vsw.webp",
+      "options": ["외교", "불교경전", "군사", "교육", "경제"],
+      "answer": 2
+    },
+
+    {
+      "id": 15,
+      "subject": "고려",
+      "question": "다음 유물의 특징은?",
+      "image_url": "https://i.namu.wiki/i/OhwKp7urKsRV741Bqxv5prAs6cBsTXsGtRjF4pOYqLS-SE80-hhl8dlGyTl7is2X-qDwQcQrEc8oGF2rIvYEJEhj9vy10i-o6gesZLmSE6P_Mob31raWGVZPjFLOpUcLZe6ryhHiec4sJgrIaXxmUA.webp",
+      "options": ["목판", "금속활자", "필사", "석판", "회화"],
+      "answer": 2
+    },
+
+    {
+      "id": 16,
+      "subject": "삼국",
+      "question": "다음 문화의 특징은?",
+      "image_url": "data:image/jpeg;base64,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",
+      "options": ["추상", "현실", "단순", "유교", "불교배척"],
+      "answer": 2
+    },
+
+    {
+      "id": 17,
+      "subject": "백제",
+      "question": "다음 유물의 특징은?",
+      "image_url": "https://i.namu.wiki/i/eDUICkIFPTsNo-gbvovx0YKLjac81eDs73zsqGX5AZjnaKp7yRuJbk1wfjt8Csu1wuJsQN_km03EESLADBvIy3NPeka4NAWyy44K2B8Kfur3aJqeM2m479C8eIa6NSwaFe3T81i0GZGO1NKdpqpx8A.webp",
+      "options": ["소박", "화려", "단순", "군사", "유교"],
+      "answer": 2
+    },
+
+    {
+      "id": 18,
+      "subject": "신라",
+      "question": "다음 유물의 시대는?",
+      "image_url": "https://i.namu.wiki/i/IXRWVJc1FFl3DxKzR1t6J5gTRrQ6GHQIckSd73-U3vu_420VYp-BuS9badU1PMcQAt9B-5mGEkIGdKrd13icAM5n8baunKATQKdqo_bnprBeMEOwh0N56zSyhvvfUW4ijrIx0UsUBkYuO8cGWNuyTg.webp",
+      "options": ["고조선", "삼국", "통일신라", "발해", "고려"],
+      "answer": 2
+    },
+
+    {
+      "id": 19,
+      "subject": "제도",
+      "question": "다음과 관련된 제도는?",
+      "image_url": "https://i.namu.wiki/i/cDib9L5DYMnPQGVE6yQTvqyoaW1JcGIKL2F44IId0lCBrmVTHx84qUSYfi-WGMNbKmapxYTUzQ3GeCV3n5CcOfd5rlCBwJQfSMvV2s5sFXWIQMsFeYpg70wz2DgVswN_-LXPz7Wy7OuRiWI7ZbNnTw.webp",
+      "options": ["화백회의", "화랑도", "집사부", "정사암", "제가회의"],
+      "answer": 2
+    },
+
+    {
+      "id": 20,
+      "subject": "전쟁",
+      "question": "황산벌 전투 인물은?",
+      "image_url": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQGJdCjWeAlIsDE6ljOD8jLSul8R2vsDxLaeX_sVlnB1aa2N3j7",
+      "options": ["계백", "김유신", "을지문덕", "연개소문", "강감찬"],
+      "answer": 1
+    },
+
+    {
+      "id": 21,
+      "subject": "통합과학1",
+      "question": "빅뱅 우주론에서 우주 초기 생성된 가장 가벼운 두 원소의 질량비(수소:헬륨)는?",
+      "image_url": "",
+      "options": ["1:1", "2:1", "3:1", "4:1", "7:1"],
+      "answer": 3
+    },
+
+    {
+      "id": 22,
+      "subject": "통합과학1",
+      "question": "다음 중 전자를 잃고 양이온이 되기 쉬운 원소들이 모인 족은?",
+      "image_url": "",
+      "options": ["1족", "14족", "17족", "18족", "0족"],
+      "answer": 1
+    },
+
+    {
+      "id": 23,
+      "subject": "통합과학1",
+      "question": "공유 결합에 대한 설명으로 옳은 것은?",
+      "image_url": "",
+      "options": ["금속 원소끼리의 결합이다.", "전자를 주고받아 형성된다.", "비금속 원소들이 전자쌍을 공유한다.", "수용액 상태에서만 전기 전도성이 있다.", "정전기적 인력에 의한 결합이다."],
+      "answer": 3
+    }
+  ]
+}

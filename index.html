@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고등학교 시험 출제 시스템</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Pretendard', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); }
+        .glass { background: rgba(255, 255, 255, 0.9); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+        .q-card { transition: transform 0.2s, box-shadow 0.2s; }
+        .q-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        body { font-family: 'Pretendard', sans-serif; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); color: #1e293b; }
+        .glass { background: rgba(255, 255, 255, 0.8); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .q-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid transparent; }
+        .q-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.04); border-color: rgba(99, 102, 241, 0.2); }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-extrabold text-slate-800 mb-2 leading-tight">📝 스마트 시험 매니저</h1>
+            <p class="text-slate-500">데이터베이스 기반 문제 추출 및 변형 시스템</p>
+            <div id="server-info-badge" class="mt-4 inline-block bg-white/50 px-4 py-1.5 rounded-full text-xs font-mono text-slate-600 border border-white/80 shadow-sm hidden"></div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-3 tracking-tight">📝 스마트 시험 매니저</h1>
+            <p class="text-slate-500 text-lg font-medium">데이터베이스 기반 문제 추출 및 변형 시스템</p>
+            <div id="server-info-badge" class="mt-4 inline-block bg-white/60 px-4 py-1.5 rounded-full text-xs font-mono text-slate-500 border border-white/80 shadow-sm hidden"></div>
+        </header>
+
+        <div class="glass p-8 rounded-3xl shadow-xl mb-8">
+            <div class="mb-6 text-center">
+                <p class="text-sm font-bold text-slate-700 mb-3">과목 선택</p>
+                <div id="subject-selector" class="flex flex-wrap justify-center gap-2 mb-4">
+                    <button onclick="selectSubject('한국사')" class="subject-btn bg-indigo-600 text-white font-bold py-2 px-6 rounded-full shadow-md transition-all">한국사</button>
+                    <button onclick="selectSubject('수학')" class="subject-btn bg-white text-slate-700 font-bold py-2 px-6 rounded-full border border-slate-200 hover:bg-slate-50 transition-all">수학</button>
+                    <button onclick="selectSubject('국어')" class="subject-btn bg-white text-slate-700 font-bold py-2 px-6 rounded-full border border-slate-200 hover:bg-slate-50 transition-all">국어</button>
+                    <button onclick="selectSubject('통합사회1')" class="subject-btn bg-white text-slate-700 font-bold py-2 px-6 rounded-full border border-slate-200 hover:bg-slate-50 transition-all">통합사회1</button>                    
+                    <button onclick="selectSubject('통합과학1')" class="subject-btn bg-white text-slate-700 font-bold py-2 px-6 rounded-full border border-slate-200 hover:bg-slate-50 transition-all">통합과학1</button>
+                    <button onclick="selectSubject('과학탐구실험')" class="subject-btn bg-white text-slate-700 font-bold py-2 px-6 rounded-full border border-slate-200 hover:bg-slate-50 transition-all">과학탐구실험</button>
+                </div>
+                <input type="hidden" id="subject" value="한국사">
+                <input type="hidden" id="author" value="">
+                <input type="hidden" id="range" value="">
+                <p class="text-sm text-slate-500 mt-2">저자 및 시험 범위는 등록된 DB 문제 필터링에 사용됩니다.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div>
+                    <label for="question-count" class="block text-sm font-bold text-slate-700 mb-1">문제 갯수</label>
+                    <input type="number" id="question-count" value="5" min="1" max="50" class="w-full bg-white/50 border border-slate-200 rounded-xl p-3 outline-none transition focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex flex-col gap-4 md:flex-row md:items-center">
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="immediate-feedback" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <span class="ml-3 text-sm font-bold text-slate-700">정답 즉시 확인</span>
+                    </label>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="transform-toggle" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <span class="ml-3 text-sm font-bold text-slate-700">문제 변형 출제</span>
+                    </label>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" id="include-short-answer" class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <span class="ml-3 text-sm font-bold text-slate-700">주관식 포함</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-3">
+                <button onclick="generateExam()" class="flex-1 min-w-[140px] bg-indigo-600 text-white font-bold py-4 rounded-2xl hover:bg-indigo-700 shadow-lg shadow-indigo-200 transition-all active:scale-95">
+                    문제 생성
+                </button>
+                <button onclick="toggleImportArea()" class="bg-slate-700 text-white font-bold py-4 px-6 rounded-2xl hover:bg-slate-800 transition-all">
+                    관리 도구
+                </button>
+            </div>
+        </div>
+
+        <!-- 대량 등록 영역 (기본 숨김) -->
+        <div id="import-area" class="glass mt-6 p-6 rounded-2xl border-2 border-dashed border-slate-300 hidden">
+            <div class="flex gap-4 mb-2">
+                <button onclick="setImportMode('json')" id="btn-json" class="text-xs font-bold px-2 py-1 border-b-2 border-blue-500">JSON 모드</button>
+                <button onclick="setImportMode('text')" id="btn-text" class="text-xs font-bold px-2 py-1 text-gray-400">텍스트 파싱 모드</button>
+            </div>
+            
+            <div id="json-input-group">
+                <label for="import-json" class="block text-xs font-bold mb-2 text-gray-600">JSON 데이터 붙여넣기</label>
+                <textarea id="import-json" class="w-full h-32 border border-gray-300 rounded-md p-2 text-xs font-mono mb-2" placeholder='[{"subject": "수학", ...}]'></textarea>
+            </div>
+            <div id="text-input-group" class="hidden">
+                <label for="import-text" class="block text-xs font-bold mb-2 text-gray-600">문제 문본 + 하단 [정답] 목록 붙여넣기</label>
+                <textarea id="import-text" class="w-full h-32 border border-gray-300 rounded-md p-2 text-xs mb-2" placeholder="1. 문제 내용...&#10;① 보기1...&#10;[정답]&#10;④"></textarea>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-400 font-mono">형식: List&lt;Question&gt; JSON</span>
+                <div class="flex gap-2">
+                    <button onclick="exportQuestions()" class="bg-amber-500 text-white text-sm py-1 px-4 rounded hover:bg-amber-600 transition-colors">JSON 다운로드</button>
+                    <button onclick="deleteAllQuestions()" class="bg-red-500 text-white text-sm py-1 px-4 rounded hover:bg-red-600 transition-colors">전체 삭제</button>
+                    <button onclick="importQuestions()" class="bg-indigo-500 text-white text-sm py-1 px-4 rounded hover:bg-indigo-600 transition-colors">등록하기</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="exam-container" class="mt-8 space-y-6">
+            <!-- 문제 출제 영역 -->
+            <p class="text-gray-500 text-center">조건을 입력하고 버튼을 눌러주세요.</p>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestionsOnScreen = []; // 현재 화면에 표시된 모든 문제 데이터
+        let userAnswers = {}; // 사용자가 선택한 답안 저장
+
+        // 서버 정보 로드 (외부 접속 주소 표기)
+        async function loadServerInfo() {
+            try {
+                const res = await fetch('/server-info');
+                const data = await res.json();
+                const badge = document.getElementById('server-info-badge');
+                badge.innerText = `접속 주소: ${data.url}`;
+                badge.classList.remove('hidden');
+            } catch (e) {}
+        }
+        loadServerInfo();
+
+        function selectSubject(subject) {
+            document.getElementById('subject').value = subject;
+            const buttons = document.querySelectorAll('.subject-btn');
+            buttons.forEach(btn => {
+                if (btn.innerText === subject) {
+                    btn.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+                    btn.classList.remove('bg-white/50', 'text-slate-600', 'border', 'border-slate-200');
+                    btn.classList.add('bg-indigo-600', 'text-white', 'shadow-md');
+                } else {
+                    btn.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-200');
+                    btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-md');
+                    btn.classList.add('bg-white/50', 'text-slate-600', 'border', 'border-slate-200');
+                    btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-md', 'border-transparent');
+                }
+            });
+        }
+
+        async function generateExam() {
+            const subject = document.getElementById('subject').value;
+            const count = document.getElementById('question-count').value;
+            const transform = document.getElementById('transform-toggle').checked ? 1 : 0;
+            const includeShortAnswer = document.getElementById('include-short-answer').checked;
+            const container = document.getElementById('exam-container');
+            const params = new URLSearchParams();
+            params.set('count', count);
+            params.set('transform', transform);
+            params.set('include_short_answer', includeShortAnswer ? 1 : 0);
+            await fetchAndRender(`/generate-exam/${encodeURIComponent(subject)}?${params.toString()}`, container, includeShortAnswer);
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function isSpeechSynthesisSupported() {
+            return 'speechSynthesis' in window;
+        }
+
+        function speakText(text) {
+            if (!isSpeechSynthesisSupported()) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function normalizeShortAnswer(answer) {
+            return (answer || '')
+                .toString()
+                .trim()
+                .toLowerCase()
+                .replace(/\s+/g, '')
+                .replace(/[\p{P}\p{S}]+/gu, '');
+        }
+
+        function checkShortAnswer(qIdx) {
+            const question = currentQuestionsOnScreen[qIdx];
+            if (!question || question.question_type !== 'short_answer') return;
+
+            const input = document.getElementById(`short-answer-${qIdx}`);
+            const feedback = document.getElementById(`feedback-${qIdx}`);
+            const status = document.getElementById(`short-answer-status-${qIdx}`);
+            const answer = normalizeShortAnswer(input.value);
+            const expected = normalizeShortAnswer(question.short_answer || '');
+
+            if (!answer) {
+                feedback.classList.add('hidden');
+                if (status) status.textContent = '키보드로 답안을 입력하세요.';
+                delete userAnswers[qIdx];
+                return;
+            }
+
+            if (answer === expected && expected) {
+                userAnswers[qIdx] = input.value.trim();
+                feedback.classList.remove('hidden');
+                feedback.innerHTML = '<span class="text-green-600">✅ 정답입니다!</span>';
+                if (status) status.textContent = '정답이 확인되었습니다.';
+            } else {
+                delete userAnswers[qIdx];
+                feedback.classList.remove('hidden');
+                feedback.innerHTML = '<span class="text-red-600">❌ 틀렸습니다. 정답 듣기 버튼을 눌러주세요.</span>';
+                if (status) status.textContent = '틀린 답입니다. 정답을 다시 확인하세요.';
+            }
+        }
+
+        function startVoiceInput(qIdx) {
+            const status = document.getElementById(`short-answer-status-${qIdx}`);
+            const question = currentQuestionsOnScreen[qIdx];
+            if (!isSpeechSynthesisSupported()) {
+                if (status) status.textContent = '이 브라우저는 음성 합성을 지원하지 않습니다.';
+                return;
+            }
+            if (!question || !question.short_answer) {
+                if (status) status.textContent = '정답 정보가 없습니다.';
+                return;
+            }
+            const answerText = `정답: ${question.short_answer}`;
+            if (status) status.textContent = answerText;
+            speakText(`${answerText} 입니다.`);
+        }
+
+        function prepareQuestionForDisplay(question) {
+            const q = { ...question };
+            q.options = Array.isArray(q.options) ? q.options.slice() : [];
+            q.displayOptions = [];
+            q.displayAnswerIdx = q.answer_idx;
+
+            if (q.question_type === 'multiple_choice' && q.options.length > 0) {
+                const ordered = q.options.map((opt, idx) => ({ opt, idx }));
+                shuffleArray(ordered);
+                q.displayOptions = ordered.map(item => item.opt);
+                q.displayAnswerIdx = ordered.findIndex(item => item.idx === q.answer_idx);
+            }
+
+            return q;
+        }
+
+        async function fetchAndRender(url, container, includeShortAnswer = false) {
+            container.innerHTML = '<p class="text-center text-gray-600">문제를 처리 중입니다...</p>';
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || '서버에서 오류가 발생했습니다.');
+                }
+
+                const questions = Array.isArray(data) ? data.map(prepareQuestionForDisplay) : [];
+                currentQuestionsOnScreen = questions; // 현재 문제 데이터 저장
+                userAnswers = {}; // 답안 초기화
+
+                if (questions.length === 0) {
+                    container.innerHTML = '<p class="text-center text-red-500">해당 조건에 맞는 문제가 없습니다.</p>';
+                    return;
+                }
+
+                let warningHtml = '';
+                if (includeShortAnswer && !questions.some(q => q.question_type === 'short_answer')) {
+                    warningHtml = '<p class="text-center text-yellow-600 mb-4">주관식 포함 옵션을 켰지만, 현재 선택된 조건에 부합하는 주관식 문제가 없습니다.</p>';
+                }
+
+                let questionsHtml = questions.map((q, idx) => `
+                    <div class="q-card glass p-6 rounded-2xl shadow-md mb-6">
+                    <div class="q-card glass p-8 rounded-3xl shadow-sm mb-6 bg-white/60">
+                        ${q.image_url && q.image_url.trim() !== "" ? `<div class="w-full bg-white/50 rounded-xl mb-4 p-2 shadow-sm border border-slate-100 flex justify-center items-center min-h-48"><img src="${q.image_url}" class="max-h-80 max-w-full object-contain rounded" alt="문제 이미지" loading="lazy" onload="console.log('이미지 로드:', '${q.image_url}')" onerror="this.parentElement.style.display='none'"></div>` : ''}
+                        <p class="font-bold text-xl mb-3 text-slate-800">${idx + 1}. ${q.content}</p>
+                        <div id="options-container-${idx}" class="space-y-2">
+                        <p class="font-bold text-xl mb-6 text-slate-800 leading-snug"><span class="text-indigo-500 mr-2">${idx + 1}.</span> ${q.content}</p>
+                        <div id="options-container-${idx}" class="space-y-3">
+                            ${q.question_type === 'short_answer'
+                                ? `
+                                    <div class="space-y-3">
+                                        <div class="flex gap-2 items-center">
+                                            <input type="text" id="short-answer-${idx}" class="flex-1 border border-slate-200 rounded-xl p-3 text-slate-700 outline-none focus:ring-2 focus:ring-blue-500" placeholder="주관식 답안을 입력하세요." oninput="userAnswers[${idx}] = this.value.trim(); if (document.getElementById('immediate-feedback').checked) checkShortAnswer(${idx});">
+                                            <input type="text" id="short-answer-${idx}" class="flex-1 border border-slate-200 rounded-xl p-4 text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 bg-white" placeholder="주관식 답안을 입력하세요." oninput="userAnswers[${idx}] = this.value.trim(); if (document.getElementById('immediate-feedback').checked) checkShortAnswer(${idx});">
+                                            <button type="button" onclick="startVoiceInput(${idx})" class="inline-flex items-center justify-center h-12 px-4 rounded-xl bg-indigo-600 text-white text-sm font-bold hover:bg-indigo-700 transition-colors">
+                                                🔊 정답 듣기
+                                            </button>
+                                        </div>
+                                        <div id="short-answer-status-${idx}" class="text-xs text-slate-500">틀리면 자동으로 정답을 음성 안내합니다.</div>
+                                        <div id="short-answer-status-${idx}" class="text-xs text-slate-400 font-medium">틀리면 자동으로 정답을 음성 안내합니다.</div>
+                                    </div>
+                                `
+                                : q.displayOptions.map((opt, i) => `
+                                    <label class="flex items-center cursor-pointer p-3 rounded-xl border border-transparent hover:bg-blue-50 transition-all">
+                                    <label class="flex items-center cursor-pointer p-4 rounded-2xl border border-slate-100 bg-white/40 hover:bg-indigo-50/50 hover:border-indigo-200 transition-all">
+                                        <input type="radio" name="q-${idx}" class="mr-3 h-5 w-5 text-blue-600 focus:ring-blue-500" 
+                                            onchange="checkImmediateAnswer(${idx}, ${i}, ${q.displayAnswerIdx})">
+                                        <span class="text-base text-slate-700">${i + 1}) ${opt}</span>
+                                    </label>
+                                `).join('')}
+                        </div>
+                        <div id="feedback-${idx}" class="mt-4 hidden font-bold text-lg"></div>
+                        <div class="mt-4 text-sm text-gray-500 border-t border-slate-100 pt-3 flex justify-between items-center">
+                        <div class="mt-6 text-[10px] text-slate-400 border-t border-slate-100 pt-3 flex justify-between items-center font-bold uppercase tracking-widest">
+                            <span>범위: ${q.range} | 저자: ${q.author}</span>
+                         </div>
+                    </div>
+                `).join('');
+
+                container.innerHTML = warningHtml + questionsHtml;
+
+                if (questions.length > 0) {
+                    container.innerHTML += `
+                        <div class="mt-8 text-center">
+                            <button onclick="submitQuiz()" class="bg-blue-600 text-white font-bold py-4 px-8 rounded-2xl hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-95">
+                            <button onclick="submitQuiz()" class="w-full bg-slate-900 text-white font-bold py-5 rounded-3xl hover:bg-black shadow-xl transition-all active:scale-[0.98] text-xl">
+                                답안 제출하기
+                            </button>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                container.innerHTML = `<p class="text-center text-red-500">오류 발생: ${error.message}</p>`;
+            }
+        }
+
+        async function checkImmediateAnswer(qIdx, selectedIdx, correctIdx) {
+            if (!document.getElementById('immediate-feedback').checked) {
+                userAnswers[qIdx] = selectedIdx;
+                return;
+            }
+
+            const container = document.getElementById(`options-container-${qIdx}`);
+            const feedback = document.getElementById(`feedback-${qIdx}`);
+            const labels = container.querySelectorAll('label');
+            const inputs = container.querySelectorAll('input');
+
+            if (selectedIdx === correctIdx) {
+                userAnswers[qIdx] = selectedIdx;
+                inputs.forEach(input => input.disabled = true);
+                labels.forEach((label, i) => {
+                    if (i === correctIdx) {
+                        label.classList.add('bg-green-100', 'border-green-500', 'text-green-700');
+                    } else {
+                        label.classList.remove('bg-red-100', 'border-red-500', 'text-red-700');
+                    }
+                });
+                feedback.classList.remove('hidden');
+                feedback.innerHTML = '<span class="text-green-600">✅ 정답입니다!</span>';
+            } else {
+                delete userAnswers[qIdx];
+                if (inputs[selectedIdx]) inputs[selectedIdx].disabled = true;
+                labels.forEach((label, i) => {
+                    if (i === selectedIdx) {
+                        label.classList.add('bg-red-100', 'border-red-500', 'text-red-700');
+                    } else {
+                        label.classList.remove('bg-green-100', 'border-green-500', 'text-green-700');
+                    }
+                });
+                feedback.classList.remove('hidden');
+                feedback.innerHTML = '<span class="text-red-600">❌ 틀렸습니다. 정답을 다시 선택해주세요.</span>';
+            }
+        }
+
+        async function exportQuestions() {
+            try {
+                const response = await fetch('/export-questions');
+                if (!response.ok) throw new Error("서버로부터 데이터를 가져오지 못했습니다.");
+                const data = await response.json();
+                
+                // JSON 파일을 생성하여 다운로드
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'my_database_questions.json';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            } catch (error) {
+                alert("데이터 내보내기 실패: " + error.message);
+            }
+        }
+
+        async function deleteAllQuestions() {
+            if (!confirm("⚠️ 주의: 데이터베이스에 저장된 모든 문제가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?")) {
+                return;
+            }
+
+            try {
+                const response = await fetch('/delete-all-questions', {
+                    method: 'DELETE',
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.message);
+                    location.reload(); // 화면 새로고침
+                } else {
+                    alert("삭제 실패: " + (result.detail || "알 수 없는 오류가 발생했습니다."));
+                }
+            } catch (error) {
+                alert(`서버 연결 오류: ${error.message}`);
+            }
+        }
+
+        function toggleImportArea() {
+            const area = document.getElementById('import-area');
+            area.classList.toggle('hidden');
+        }
+
+        let importMode = 'json';
+        function setImportMode(mode) {
+            importMode = mode;
+            document.getElementById('json-input-group').classList.toggle('hidden', mode !== 'json');
+            document.getElementById('text-input-group').classList.toggle('hidden', mode !== 'text');
+            document.getElementById('btn-json').className = mode === 'json' ? 'text-xs font-bold px-2 py-1 border-b-2 border-blue-500' : 'text-xs font-bold px-2 py-1 text-gray-400';
+            document.getElementById('btn-text').className = mode === 'text' ? 'text-xs font-bold px-2 py-1 border-b-2 border-blue-500' : 'text-xs font-bold px-2 py-1 text-gray-400';
+        }
+
+        function parseRawText(text) {
+            const subject = document.getElementById('subject').value;
+            const author = "수동 등록"; // 기본값
+            const range = "미지정"; // 기본값
+
+            // 1. 정답 섹션 분리
+            const parts = text.split('[정답]');
+            if (parts.length < 2) throw new Error("하단에 [정답] 표시와 정답 목록이 필요합니다.");
+            
+            const questionsText = parts[0];
+            const answersText = parts[1];
+
+            // 2. 정답 추출 (각 줄에서 가장 처음 나오는 기호를 해당 문제의 정답으로 간주)
+            const ansMap = { '①': 0, '②': 1, '③': 2, '④': 3, '⑤': 4, '1': 0, '2': 1, '3': 2, '4': 3, '5': 4 };
+            const answers = answersText.split('\n')
+                .map(line => line.trim())
+                .filter(line => line.length > 0)
+                .map(line => {
+                    const match = line.match(/[①-⑤1-5]/);
+                    return match ? ansMap[match[0]] : null;
+                })
+                .filter(a => a !== null);
+
+            // 3. 문제 블록 추출 (숫자. 으로 시작하는 지점을 기준으로 나눔)
+            const qBlocks = questionsText.split(/\n\s*(?=\d+\.\s+)/).filter(b => b.trim());
+            
+            return qBlocks.map((block, i) => {
+                const lines = block.split('\n').map(l => l.trim()).filter(l => l);
+                if (lines.length < 2) return null;
+
+                // 보기가 시작되는 줄 번호 찾기
+                let firstOptionIdx = lines.findIndex(l => l.match(/^[①-⑤1-5]/));
+                if (firstOptionIdx === -1) firstOptionIdx = 1;
+
+                // 문제 내용은 보기 전까지의 모든 줄을 합침 (유물 설명 등 포함)
+                const content = lines.slice(0, firstOptionIdx).join(' ').replace(/^\d+\.\s*/, '');
+                
+                // 보기 추출
+                const options = [];
+                for (let j = firstOptionIdx; j < lines.length; j++) {
+                    const optMatch = lines[j].match(/^[①-⑤1-5]\s*(.*)/);
+                    if (optMatch) options.push(optMatch[1]);
+                }
+
+                return {
+                    subject, author, range,
+                    difficulty: "중",
+                    content: content,
+                    options: options.slice(0, 5),
+                    answer_idx: (answers[i] !== undefined) ? answers[i] : 0
+                };
+            }).filter(q => q !== null);
+        }
+
+        function normalizeImportQuestion(item) {
+            const normalized = {
+                subject: item.subject || document.getElementById('subject').value,
+                author: item.author || item.author || '미정',
+                range: item.range || '전체',
+                difficulty: item.difficulty || '중',
+                content: item.content || item.question || item.prompt || '',
+                options: item.options || [],
+                image_url: item.image_url || null,
+                question_type: item.question_type || (item.options && item.options.length ? 'multiple_choice' : 'short_answer'),
+                answer_idx: item.answer_idx,
+                short_answer: item.short_answer || (typeof item.answer === 'string' ? item.answer : undefined),
+                answer: item.answer
+            };
+
+            if (normalized.question_type === 'multiple_choice' && normalized.answer_idx == null) {
+                if (typeof item.answer === 'number') {
+                    normalized.answer_idx = item.answer > 0 ? item.answer - 1 : 0;
+                } else if (typeof item.answer === 'string' && normalized.options.length) {
+                    const parsed = Number(item.answer);
+                    if (!Number.isNaN(parsed)) {
+                        normalized.answer_idx = parsed > 0 ? parsed - 1 : 0;
+                    } else {
+                        normalized.answer_idx = normalized.options.indexOf(item.answer);
+                        if (normalized.answer_idx === -1) normalized.answer_idx = 0;
+                    }
+                }
+            }
+
+            return normalized;
+        }
+
+        async function importQuestions() {
+            let questions = [];
+            try {
+                if (importMode === 'json') {
+                    let jsonText = document.getElementById('import-json').value.trim();
+                    if (!jsonText.trim()) return alert("JSON 데이터를 입력해주세요.");
+
+                    // JSON 문자열 내부의 제어 문자만 찾아 이스케이프 처리하여 파싱 에러 방지
+                    // 구조적 줄바꿈(따옴표 밖)은 유지하고, 따옴표 안의 실제 줄바꿈/탭 등을 처리합니다.
+                    jsonText = jsonText.replace(/"([^"\\]|\\.)*"/g, (match) => {
+                        return match.replace(/[\u0000-\u001F]/g, (c) => {
+                            const map = { '\n': '\\n', '\r': '\\r', '\t': '\\t', '\b': '\\b', '\f': '\\f' };
+                            return map[c] || ""; // 정의되지 않은 제어 문자는 제거
+                        });
+                    });
+
+                    const importedData = JSON.parse(jsonText);
+                    if (!Array.isArray(importedData) && importedData && (Array.isArray(importedData.multiple_choice) || Array.isArray(importedData.short_answer))) {
+                        questions = [
+                            ...(Array.isArray(importedData.multiple_choice) ? importedData.multiple_choice : []),
+                            ...(Array.isArray(importedData.short_answer) ? importedData.short_answer : []),
+                        ];
+                    } else {
+                        questions = Array.isArray(importedData) ? importedData : [importedData];
+                    }
+
+                    // 해냄에듀 100문제와 같은 특수 형식 처리 (exam_title이 있는 경우)
+                    if (importedData.exam_title && Array.isArray(importedData.questions)) {
+                        questions = importedData.questions.map(q => ({
+                            subject: document.getElementById('subject').value,
+                            author: q.author || importedData.exam_title,
+                            range: q.range || q.subject || "전체", // JSON의 subject를 range로 사용
+                            difficulty: q.difficulty || "중",
+                            content: q.content || q.question || "",
+                            options: q.options || [],
+                            image_url: q.image_url || null,
+                            answer_idx: typeof q.answer_idx === 'number' ? q.answer_idx :
+                                       (typeof q.answer === 'number') ? q.answer - 1 : 0
+                        }));
+                    } else {
+                        questions = Array.isArray(importedData) ? importedData : [importedData];
+                        questions = questions.map(normalizeImportQuestion);
+                    }
+                } else {
+                    const rawText = document.getElementById('import-text').value;
+                    if (!rawText.trim()) return alert("텍스트 데이터를 입력해주세요.");
+                    questions = parseRawText(rawText);
+                }
+
+                if (questions.length === 0) throw new Error("파싱된 문제가 없습니다.");
+
+                if (!confirm(`${questions.length}개의 문제를 등록하시겠습니까?`)) return;
+
+                const response = await fetch('/import-questions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(questions),
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.message);
+                    document.getElementById('import-json').value = '';
+                    document.getElementById('import-text').value = '';
+                    toggleImportArea();
+                } else {
+                    const errorMsg = result.detail || result.message || JSON.stringify(result);
+                    alert("등록 실패: " + errorMsg);
+                }
+            } catch (e) {
+                alert("JSON 형식이 올바르지 않습니다. [" + e.message + "]");
+            }
+        }
+
+        function submitQuiz() {
+            if (!currentQuestionsOnScreen || currentQuestionsOnScreen.length === 0) return;
+            const total = currentQuestionsOnScreen.length;
+            const answeredCount = Object.keys(userAnswers).length;
+
+            if (answeredCount < total) {
+                if (!confirm(`아직 풀지 않은 문제가 ${total - answeredCount}개 있습니다. 정말 제출하시겠습니까?`)) {
+                    return;
+                }
+            }
+
+            let correctCount = 0;
+            currentQuestionsOnScreen.forEach((q, idx) => {
+                if (q.question_type === 'short_answer') {
+                    const answer = (userAnswers[idx] || '').toString().trim().toLowerCase();
+                    const expected = (q.short_answer || '').toString().trim().toLowerCase();
+                    if (answer && expected && answer === expected) {
+                        correctCount++;
+                    }
+                } else {
+                    const correctIdx = typeof q.displayAnswerIdx === 'number' ? q.displayAnswerIdx : q.answer_idx;
+                    if (userAnswers[idx] === correctIdx) {
+                        correctCount++;
+                    }
+                }
+            });
+
+            const score = Math.round((correctCount / total) * 100);
+            const incorrectCount = total - correctCount;
+
+            const reportHtml = `
+                <div class="glass p-8 rounded-3xl shadow-2xl text-center border border-white/50 animate-in fade-in zoom-in duration-300">
+                    <h2 class="text-3xl font-extrabold text-slate-800 mb-8">📊 시험 결과 리포트</h2>
+                    <div class="grid grid-cols-3 gap-4 mb-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                        <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100">
+                            <p class="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">전체 문항</p>
+                            <p class="text-3xl font-black text-blue-800">${total}</p>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-2xl border border-green-100">
+                            <p class="text-xs font-bold text-green-600 uppercase tracking-wider mb-1">정답</p>
+                            <p class="text-3xl font-black text-green-800">${correctCount}</p>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-2xl border border-red-100">
+                            <p class="text-xs font-bold text-red-600 uppercase tracking-wider mb-1">오답</p>
+                            <p class="text-3xl font-black text-red-800">${incorrectCount}</p>
+                        </div>
+                    </div>
+                    <div class="mb-10">
+                        <p class="text-lg font-bold text-slate-500 mb-2">나의 점수</p>
+                        <div class="inline-block relative">
+                            <span class="text-7xl font-black text-indigo-600">${score}</span>
+                            <span class="text-2xl font-bold text-indigo-400 ml-1">점</span>
+                        </div>
+                    </div>
+                    <button onclick="location.reload()" class="w-full bg-slate-800 text-white font-bold py-4 rounded-2xl hover:bg-slate-900 transition-all shadow-lg active:scale-[0.98]">
+                        새로운 시험 시작하기
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('exam-container').innerHTML = reportHtml;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

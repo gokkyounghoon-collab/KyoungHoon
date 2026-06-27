@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+pydantic
+jinja2
+selenium
+beautifulsoup4
+requests
+python-dotenv
+alembic
+pytest
+black
+isort
+flake8
+pillow

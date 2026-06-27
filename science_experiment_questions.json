@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "subject": "과학탐구실험",
+    "type": "객관식",
+    "question": "다음 그림은 세포의 구조이다. 핵의 역할로 옳은 것은?",
+    "image": "https://th.bing.com/th/id/OIP.1BgSFcNdph6JXY1sepiaIQHaFz?w=216&h=180&c=7&r=0&o=7&pid=1.7&rm=3.png",
+    "choices": [
+      "단백질 합성",
+      "에너지 생성",
+      "유전 정보 저장",
+      "물질 이동"
+    ],
+    "answer": 3
+  },
+  {
+    "id": 2,
+    "subject": "과학탐구실험",
+    "type": "객관식",
+    "question": "다음 그림은 상태 변화를 나타낸 것이다. A→B 변화는?",
+    "image": "https://th.bing.com/th/id/OIP.IfgA4WnKDBm7P3tL6Vty9gHaEK?w=286&h=180&c=7&r=0&o=7&pid=1.7&rm=3.png",
+    "choices": [
+      "융해",
+      "기화",
+      "응고",
+      "승화"
+    ],
+    "answer": 1
+  },
+  {
+    "id": 3,
+    "subject": "과학탐구실험",
+    "type": "객관식",
+    "question": "다음은 태양계이다. 지구의 위치는?",
+    "image": "https://th.bing.com/th/id/OIP.mHpQaTQh1hSdx3Ep_ZXgfgHaF7?w=208&h=180&c=7&r=0&o=7&pid=1.7&rm=3.png",
+    "choices": [
+      "1번째",
+      "2번째",
+      "3번째",
+      "4번째"
+    ],
+    "answer": 3
+  },
+  {
+    "id": 4,
+    "subject": "과학탐구실험",
+    "type": "객관식",
+    "question": "다음 그림에서 물체가 정지하는 조건은?",
+    "image": "https://th.bing.com/th/id/OIP.TZ_WaX6e6eQ4FNMm_cXEXAHaDj?w=296&h=180&c=7&r=0&o=7&pid=1.7&rm=3.png",
+    "choices": [
+      "힘=0",
+      "힘 일정",
+      "속도 증가",
+      "질량 증가"
+    ],
+    "answer": 1
+  },
+  {
+    "id": 5,
+    "subject": "과학탐구실험",
+    "type": "객관식",
+    "question": "다음은 DNA 구조이다. 염기 결합은?",
+    "image": "https://th.bing.com/th/id/OIP.IqiujwvWVOs9In1TCs_hoQHaE7?w=265&h=180&c=7&r=0&o=7&pid=1.7&rm=3.png",
+    "choices": [
+      "A-T, G-C",
+      "A-G, T-C",
+      "A-C, T-G",
+      "모두 동일"
+    ],
+    "answer": 1
+  },
+  {
+    "id": 6,
+    "subject": "과학탐구실험",
+    "type": "객관식",
+    "question": "다음은 파동이다. 진폭은?",
+    "image": "https://th.bing.com/th/id/OIP.hCfKhD8RClvfXzZHBalLIwHaE7?w=279&h=186&c=7&r=0&o=7&pid=1.7&rm=3.png",
+    "choices": [
+      "높이",
+      "길이",
+      "속도",
+      "주기"
+    ],
+    "answer": 1
+  },
+  {
+    "id": 7,
+    "subject": "과학탐구실험",
+    "type": "객관식",
+    "question": "전류 방향은?",
+    "image": "https://th.bing.com/th/id/OIP.1Cji1WwO_8b28-I4RZRsiQHaDn?w=313&h=170&c=7&r=0&o=7&pid=1.7&rm=3.png",
+    "choices": [
+      "양→음",
+      "음→양",
+      "무작위",
+      "없음"
+    ],
+    "answer": 1
+  },
+  {
+    "id": 8,
+    "subject": "과학탐구실험",
+    "type": "객관식",
+    "question": "필요하지 않은 것은?",
+    "image": "https://th.bing.com/th/id/OIP.LN8pI5UCs6DYvPE7G3qhwwHaDt?w=297&h=180&c=7&r=0&o=7&pid=1.7&rm=3.png",
+    "choices": [
+      "빛",
+      "물",
+      "산소",
+      "이산화탄소"
+    ],
+    "answer": 3
+  },
+  {
+    "id": 9,
+    "subject": "과학탐구실험",
+    "type": "객관식",
+    "question": "가장 오래된 층은?",
+    "image": "https://th.bing.com/th/id/OIP.zqCUtynwRRZHgG1hhOKmoAHaEK?w=320&h=180&c=7&r=0&o=7&pid=1.7&rm=3.png",
+    "choices": [
+      "위",
+      "중간",
+      "아래",
+      "모름"
+    ],
+    "answer": 3
+  },
+  {
+    "id": 10,
+    "subject": "과학탐구실험",
+    "type": "객관식",
+    "question": "운동 에너지는?",
+    "image": "https://th.bing.com/th/id/OIP.skfbZWkPFf3-dFKZxvPEYwHaE8?w=279&h=186&c=7&r=0&o=7&pid=1.7&rm=3.png",
+    "choices": [
+      "정지",
+      "움직임",
+      "열",
+      "빛"
+    ],
+    "answer": 2
+  }
+]
