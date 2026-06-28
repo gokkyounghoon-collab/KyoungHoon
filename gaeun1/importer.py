@@ -43,6 +43,9 @@ def convert_import_payload(payload: ImportQuestion) -> dict:
     answer_idx = payload.answer_idx
     answer_value = payload.answer
 
+    if question_type == "multiple_choice" and not options and answer_value is not None:
+        question_type = "short_answer"
+
     if question_type == "short_answer":
         if not short_answer and answer_value is not None:
             short_answer = sanitize_text(answer_value)

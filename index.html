@@ -20,9 +20,6 @@
 <body class="min-h-screen p-4 md:p-8">
     <div class="max-w-4xl mx-auto">
         <header class="text-center mb-10">
-            <h1 class="text-4xl font-extrabold text-slate-800 mb-2 leading-tight">📝 스마트 시험 매니저</h1>
-            <p class="text-slate-500">데이터베이스 기반 문제 추출 및 변형 시스템</p>
-            <div id="server-info-badge" class="mt-4 inline-block bg-white/50 px-4 py-1.5 rounded-full text-xs font-mono text-slate-600 border border-white/80 shadow-sm hidden"></div>
             <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-3 tracking-tight">📝 스마트 시험 매니저</h1>
             <p class="text-slate-500 text-lg font-medium">데이터베이스 기반 문제 추출 및 변형 시스템</p>
             <div id="server-info-badge" class="mt-4 inline-block bg-white/60 px-4 py-1.5 rounded-full text-xs font-mono text-slate-500 border border-white/80 shadow-sm hidden"></div>
@@ -35,6 +32,7 @@
                     <button onclick="selectSubject('한국사')" class="subject-btn bg-indigo-600 text-white font-bold py-2 px-6 rounded-full shadow-md transition-all">한국사</button>
                     <button onclick="selectSubject('수학')" class="subject-btn bg-white text-slate-700 font-bold py-2 px-6 rounded-full border border-slate-200 hover:bg-slate-50 transition-all">수학</button>
                     <button onclick="selectSubject('국어')" class="subject-btn bg-white text-slate-700 font-bold py-2 px-6 rounded-full border border-slate-200 hover:bg-slate-50 transition-all">국어</button>
+                    <button onclick="selectSubject('영어')" class="subject-btn bg-white text-slate-700 font-bold py-2 px-6 rounded-full border border-slate-200 hover:bg-slate-50 transition-all">영어</button>
                     <button onclick="selectSubject('통합사회1')" class="subject-btn bg-white text-slate-700 font-bold py-2 px-6 rounded-full border border-slate-200 hover:bg-slate-50 transition-all">통합사회1</button>                    
                     <button onclick="selectSubject('통합과학1')" class="subject-btn bg-white text-slate-700 font-bold py-2 px-6 rounded-full border border-slate-200 hover:bg-slate-50 transition-all">통합과학1</button>
                     <button onclick="selectSubject('과학탐구실험')" class="subject-btn bg-white text-slate-700 font-bold py-2 px-6 rounded-full border border-slate-200 hover:bg-slate-50 transition-all">과학탐구실험</button>
@@ -47,7 +45,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div>
                     <label for="question-count" class="block text-sm font-bold text-slate-700 mb-1">문제 갯수</label>
-                    <input type="number" id="question-count" value="5" min="1" max="50" class="w-full bg-white/50 border border-slate-200 rounded-xl p-3 outline-none transition focus:ring-2 focus:ring-blue-500">
+                    <input type="number" id="question-count" value="20" min="1" max="50" class="w-full bg-white/50 border border-slate-200 rounded-xl p-3 outline-none transition focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="flex flex-col gap-4 md:flex-row md:items-center">
                     <label class="relative inline-flex items-center cursor-pointer">
@@ -274,40 +272,37 @@
 
                 let questionsHtml = questions.map((q, idx) => `
                     <div class="q-card glass p-6 rounded-2xl shadow-md mb-6">
-                    <div class="q-card glass p-8 rounded-3xl shadow-sm mb-6 bg-white/60">
-                        ${q.image_url && q.image_url.trim() !== "" ? `<div class="w-full bg-white/50 rounded-xl mb-4 p-2 shadow-sm border border-slate-100 flex justify-center items-center min-h-48"><img src="${q.image_url}" class="max-h-80 max-w-full object-contain rounded" alt="문제 이미지" loading="lazy" onload="console.log('이미지 로드:', '${q.image_url}')" onerror="this.parentElement.style.display='none'"></div>` : ''}
-                        <p class="font-bold text-xl mb-3 text-slate-800">${idx + 1}. ${q.content}</p>
-                        <div id="options-container-${idx}" class="space-y-2">
-                        <p class="font-bold text-xl mb-6 text-slate-800 leading-snug"><span class="text-indigo-500 mr-2">${idx + 1}.</span> ${q.content}</p>
-                        <div id="options-container-${idx}" class="space-y-3">
-                            ${q.question_type === 'short_answer'
-                                ? `
-                                    <div class="space-y-3">
-                                        <div class="flex gap-2 items-center">
-                                            <input type="text" id="short-answer-${idx}" class="flex-1 border border-slate-200 rounded-xl p-3 text-slate-700 outline-none focus:ring-2 focus:ring-blue-500" placeholder="주관식 답안을 입력하세요." oninput="userAnswers[${idx}] = this.value.trim(); if (document.getElementById('immediate-feedback').checked) checkShortAnswer(${idx});">
-                                            <input type="text" id="short-answer-${idx}" class="flex-1 border border-slate-200 rounded-xl p-4 text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 bg-white" placeholder="주관식 답안을 입력하세요." oninput="userAnswers[${idx}] = this.value.trim(); if (document.getElementById('immediate-feedback').checked) checkShortAnswer(${idx});">
-                                            <button type="button" onclick="startVoiceInput(${idx})" class="inline-flex items-center justify-center h-12 px-4 rounded-xl bg-indigo-600 text-white text-sm font-bold hover:bg-indigo-700 transition-colors">
-                                                🔊 정답 듣기
-                                            </button>
+                        <div class="q-card glass p-8 rounded-3xl shadow-sm mb-6 bg-white/60">
+                            ${q.image_url && q.image_url.trim() !== "" ? `<div class="w-full bg-white/50 rounded-xl mb-4 p-2 shadow-sm border border-slate-100 flex justify-center items-center min-h-48"><img src="${q.image_url}" class="max-h-80 max-w-full object-contain rounded" alt="문제 이미지" loading="lazy" onload="console.log('이미지 로드:', '${q.image_url}')" onerror="this.parentElement.style.display='none'"></div>` : ''}
+                            <p class="font-bold text-xl mb-6 text-slate-800 leading-snug">${idx + 1}. ${q.content}</p>
+                            <div id="options-container-${idx}" class="space-y-3">
+                                ${q.question_type === 'short_answer'
+                                    ? `
+                                        <div class="space-y-3">
+                                            <div class="flex gap-2 items-center">
+                                                <input type="text" id="short-answer-${idx}" class="flex-1 border border-slate-200 rounded-xl p-4 text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500 bg-white" placeholder="주관식 답안을 입력하세요." oninput="userAnswers[${idx}] = this.value.trim(); if (document.getElementById('immediate-feedback').checked) checkShortAnswer(${idx});">
+                                                <button type="button" onclick="startVoiceInput(${idx})" class="inline-flex items-center justify-center h-12 px-4 rounded-xl bg-indigo-600 text-white text-sm font-bold hover:bg-indigo-700 transition-colors">
+                                                    🔊 정답 듣기
+                                                </button>
+                                            </div>
+                                            <div id="short-answer-status-${idx}" class="text-xs text-slate-400 font-medium">틀리면 자동으로 정답을 음성 안내합니다.</div>
                                         </div>
-                                        <div id="short-answer-status-${idx}" class="text-xs text-slate-500">틀리면 자동으로 정답을 음성 안내합니다.</div>
-                                        <div id="short-answer-status-${idx}" class="text-xs text-slate-400 font-medium">틀리면 자동으로 정답을 음성 안내합니다.</div>
-                                    </div>
-                                `
-                                : q.displayOptions.map((opt, i) => `
-                                    <label class="flex items-center cursor-pointer p-3 rounded-xl border border-transparent hover:bg-blue-50 transition-all">
-                                    <label class="flex items-center cursor-pointer p-4 rounded-2xl border border-slate-100 bg-white/40 hover:bg-indigo-50/50 hover:border-indigo-200 transition-all">
-                                        <input type="radio" name="q-${idx}" class="mr-3 h-5 w-5 text-blue-600 focus:ring-blue-500" 
-                                            onchange="checkImmediateAnswer(${idx}, ${i}, ${q.displayAnswerIdx})">
-                                        <span class="text-base text-slate-700">${i + 1}) ${opt}</span>
-                                    </label>
-                                `).join('')}
+                                    `
+                                    : q.displayOptions.map((opt, i) => `
+                                        <label class="flex items-center cursor-pointer p-4 rounded-2xl border border-slate-100 bg-white/40 hover:bg-indigo-50/50 hover:border-indigo-200 transition-all">
+                                            <input type="radio" name="q-${idx}" class="mr-3 h-5 w-5 text-blue-600 focus:ring-blue-500" 
+                                                onchange="checkImmediateAnswer(${idx}, ${i}, ${q.displayAnswerIdx})">
+                                            <span class="text-base text-slate-700">${i + 1}) ${opt}</span>
+                                        </label>
+                                    `).join('')}
+                            </div>
+                            <div id="feedback-${idx}" class="mt-4 hidden font-bold text-lg"></div>
+                            <div class="mt-4 text-sm text-gray-500 border-t border-slate-100 pt-3 flex justify-between items-center">
+                                <div class="mt-6 text-[10px] text-slate-400 border-t border-slate-100 pt-3 flex justify-between items-center font-bold uppercase tracking-widest">
+                                    <span>범위: ${q.range} | 저자: ${q.author}</span>
+                                </div>
+                            </div>
                         </div>
-                        <div id="feedback-${idx}" class="mt-4 hidden font-bold text-lg"></div>
-                        <div class="mt-4 text-sm text-gray-500 border-t border-slate-100 pt-3 flex justify-between items-center">
-                        <div class="mt-6 text-[10px] text-slate-400 border-t border-slate-100 pt-3 flex justify-between items-center font-bold uppercase tracking-widest">
-                            <span>범위: ${q.range} | 저자: ${q.author}</span>
-                         </div>
                     </div>
                 `).join('');
 
@@ -316,7 +311,6 @@
                 if (questions.length > 0) {
                     container.innerHTML += `
                         <div class="mt-8 text-center">
-                            <button onclick="submitQuiz()" class="bg-blue-600 text-white font-bold py-4 px-8 rounded-2xl hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all active:scale-95">
                             <button onclick="submitQuiz()" class="w-full bg-slate-900 text-white font-bold py-5 rounded-3xl hover:bg-black shadow-xl transition-all active:scale-[0.98] text-xl">
                                 답안 제출하기
                             </button>
@@ -479,17 +473,19 @@
         }
 
         function normalizeImportQuestion(item) {
+            const options = item.options || [];
+            const hasStringAnswer = typeof item.answer === 'string' && item.answer.trim().length > 0;
             const normalized = {
                 subject: item.subject || document.getElementById('subject').value,
-                author: item.author || item.author || '미정',
+                author: item.author || '미정',
                 range: item.range || '전체',
                 difficulty: item.difficulty || '중',
                 content: item.content || item.question || item.prompt || '',
-                options: item.options || [],
+                options,
                 image_url: item.image_url || null,
-                question_type: item.question_type || (item.options && item.options.length ? 'multiple_choice' : 'short_answer'),
+                question_type: item.question_type || (options.length ? 'multiple_choice' : (item.short_answer || hasStringAnswer ? 'short_answer' : 'multiple_choice')),
                 answer_idx: item.answer_idx,
-                short_answer: item.short_answer || (typeof item.answer === 'string' ? item.answer : undefined),
+                short_answer: item.short_answer || (hasStringAnswer ? item.answer : undefined),
                 answer: item.answer
             };
 
@@ -538,17 +534,24 @@
 
                     // 해냄에듀 100문제와 같은 특수 형식 처리 (exam_title이 있는 경우)
                     if (importedData.exam_title && Array.isArray(importedData.questions)) {
-                        questions = importedData.questions.map(q => ({
-                            subject: document.getElementById('subject').value,
-                            author: q.author || importedData.exam_title,
-                            range: q.range || q.subject || "전체", // JSON의 subject를 range로 사용
-                            difficulty: q.difficulty || "중",
-                            content: q.content || q.question || "",
-                            options: q.options || [],
-                            image_url: q.image_url || null,
-                            answer_idx: typeof q.answer_idx === 'number' ? q.answer_idx :
-                                       (typeof q.answer === 'number') ? q.answer - 1 : 0
-                        }));
+                        questions = importedData.questions.map(q => {
+                            const options = q.options || [];
+                            const hasStringAnswer = typeof q.answer === 'string' && q.answer.trim().length > 0;
+                            return {
+                                subject: document.getElementById('subject').value,
+                                author: q.author || importedData.exam_title,
+                                range: q.range || q.subject || "전체", // JSON의 subject를 range로 사용
+                                difficulty: q.difficulty || "중",
+                                content: q.content || q.question || "",
+                                options,
+                                image_url: q.image_url || null,
+                                question_type: q.question_type || (options.length ? 'multiple_choice' : (q.short_answer || hasStringAnswer ? 'short_answer' : 'multiple_choice')),
+                                short_answer: q.short_answer || (hasStringAnswer ? q.answer : undefined),
+                                answer: q.answer,
+                                answer_idx: typeof q.answer_idx === 'number' ? q.answer_idx :
+                                           (typeof q.answer === 'number') ? q.answer - 1 : 0
+                            };
+                        });
                     } else {
                         questions = Array.isArray(importedData) ? importedData : [importedData];
                         questions = questions.map(normalizeImportQuestion);
